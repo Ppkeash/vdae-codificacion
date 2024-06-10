@@ -1,0 +1,657 @@
+/* INDEX.HTML*/ 
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+}
+
+header {
+    background-color: white;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.logo img {
+    max-height: 50px;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    justify-content: center;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+}
+
+.main-nav {
+    margin-right: auto;
+}
+
+.auth-nav {
+    margin-left: auto;
+    display: flex;
+}
+
+nav ul li {
+    margin: 0 1rem;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+.search-cart {
+    display: flex;
+}
+
+.search-cart img {
+    max-height: 20px;
+    margin-left: 1rem;
+}
+
+.banner {
+    position: relative;
+    text-align: center;
+    color: rgb(0, 0, 0);
+}
+
+.banner img {
+    width: 100%;
+    height: auto;
+}
+
+.banner-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.banner-text h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.banner-text p {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.banner-text button {
+    background-color: #333;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.banner-text button:hover {
+    background-color: #555;
+}
+
+.productos-oferta {
+    text-align: center;
+    padding: 2rem 1rem;
+}
+
+.productos-oferta h2 {
+    margin-bottom: 2rem;
+}
+
+.productos {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.producto {
+    flex: 1 1 22%;
+    margin: 0.5rem;
+}
+
+.producto img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/*contacto.html*/
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #fff;
+}
+
+header {
+    background-color: white;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logo img {
+    max-height: 50px;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    justify-content: center;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+}
+
+.main-nav {
+    margin-right: auto;
+}
+
+.auth-nav {
+    margin-left: auto;
+    display: flex;
+}
+
+nav ul li {
+    margin: 0 1rem;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+.search-cart {
+    display: flex;
+}
+
+.search-cart img {
+    max-height: 20px;
+    margin-left: 1rem;
+}
+
+.contacto {
+    text-align: center;
+    padding: 4rem 1rem;
+}
+
+.contacto h1 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+}
+
+form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.5rem;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: #f9f9f9;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #aaa;
+}
+
+.form-group input {
+    margin-bottom: 1rem;
+}
+
+button {
+    background-color: #333;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+button:hover {
+    background-color: #555;
+}
+
+/*login.html*/
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #fff;
+}
+
+header {
+    background-color: white;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logo img {
+    max-height: 50px;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    justify-content: center;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+}
+
+.main-nav {
+    margin-right: auto;
+}
+
+.auth-nav {
+    margin-left: auto;
+    display: flex;
+}
+
+nav ul li {
+    margin: 0 1rem;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+.search-cart {
+    display: flex;
+}
+
+.search-cart img {
+    max-height: 20px;
+    margin-left: 1rem;
+}
+
+.login {
+    text-align: center;
+    padding: 4rem 1rem;
+}
+
+.login h1 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+}
+
+form {
+    max-width: 50%;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.5rem;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    font-size: 1rem;
+    background-color: #f9f9f9;
+    margin-bottom: 1rem;
+}
+
+.form-group input::placeholder {
+    color: #aaa;
+}
+
+.forgot-register {
+    margin-top: 1.5rem;
+}
+
+.forgot-password,
+.register {
+    margin-bottom: 1.5rem;
+}
+
+.forgot-password a {
+    text-decoration: none;
+    color: #333;
+    font-size: 0.9rem;
+}
+
+.forgot-password a span {
+    font-weight: bold;
+}
+
+button {
+    background-color: #333;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+button:hover {
+    background-color: #555;
+}
+
+.register p {
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.register a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+.register a span {
+    font-weight: bold;
+    color: #555;
+}
+
+
+/*registro.html*/
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #fff;
+}
+
+header {
+    background-color: white;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logo img {
+    max-height: 50px;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    justify-content: center;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+}
+
+.main-nav {
+    margin-right: auto;
+}
+
+.auth-nav {
+    margin-left: auto;
+    display: flex;
+}
+
+nav ul li {
+    margin: 0 1rem;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+.search-cart {
+    display: flex;
+}
+
+.search-cart img {
+    max-height: 20px;
+    margin-left: 1rem;
+}
+
+.registro {
+    text-align: center;
+    padding: 4rem 1rem;
+}
+
+.registro h1 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+}
+
+form {
+    max-width: 50%;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.5rem;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    font-size: 1rem;
+    background-color: #f9f9f9;
+    margin-bottom: 1rem;
+}
+
+.form-group input::placeholder {
+    color: #aaa;
+}
+
+.forgot-register {
+    margin-top: 1.5rem;
+}
+
+.forgot-password,
+.register {
+    margin-bottom: 1.5rem;
+}
+
+.forgot-password a {
+    text-decoration: none;
+    color: #333;
+    font-size: 0.9rem;
+}
+
+.forgot-password a span {
+    font-weight: bold;
+}
+
+button {
+    background-color: #333;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+button:hover {
+    background-color: #555;
+}
+
+.register p {
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.register a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+.register a span {
+    font-weight: bold;
+    color: #555;
+}
+
+/* Estilo para las tarjetas de productos */
+.lista-productos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.tarjeta-producto {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    text-align: center;
+    width: calc(33.333% - 20px);
+    box-sizing: border-box;
+}
+
+.tarjeta-producto img {
+    max-width: 100%;
+    height: auto;
+}
+
+.tarjeta-producto h3 {
+    font-size: 1.2em;
+    margin: 10px 0;
+}
+
+.tarjeta-producto p {
+    color: #555;
+}
+
+.tarjeta-producto button {
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.tarjeta-producto button:hover {
+    background-color: #555;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+
+/* CONTACTO EXITOSO */
+
+.contact-success {
+    background-color: #f9f9f9;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 600px;
+    width: 100%;
+    margin: 2rem auto;
+}
+
+.contact-success h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.contact-success p {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.contact-success .btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #333;
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.contact-success .btn:hover {
+    background-color: #555;
+}

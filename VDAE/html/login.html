@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VDAE - Inicio de Sesión</title>
+    <link rel="stylesheet" href="/estilos/styles.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="/estilos/logo-no-background.png" alt="VDAE Logo">
+        </div>
+        <nav>
+            <ul class="main-nav">
+                <li><a href="/html/index.html">Inicio</a></li>
+                <li><a href="#">Catálogo</a></li>
+                <li><a href="/html/contacto.html">Contacto</a></li>
+            </ul>
+            <ul class="auth-nav">
+                <li><a href="/html/login.html">Login</a></li>
+                <li><a href="/html/registro.html">Registro</a></li>
+            </ul>
+            <div class="search-cart">
+                <img src="/estilos/lupa.png" alt="Buscar">
+                <img src="/estilos/carrito-de-compras.png" alt="Carrito">
+            </div>
+        </nav>
+    </header>
+    <main>
+        <section class="login">
+            <h1>INICIO DE SESIÓN VDAE</h1>
+            <form id="loginForm">
+                <div class="form-group">
+                    <input type="email" id="correoElectronico" name="correoElectronico" placeholder="E-mail" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="contraseña" name="contraseña" placeholder="Contraseña" required>
+                </div>
+                <button type="submit">Iniciar Sesión</button>
+            </form>
+            <div class="forgot-register">
+                <div class="forgot-password">
+                    <a href="#">¿Olvidó su contraseña? Cámbiela <span>Aquí</span></a>
+                </div>
+                <div class="register">
+                    <p>¿No tiene una cuenta? <a href="/html/registro.html">Regístrese <span>Aquí</span></a></p>
+                </div>
+            </div>
+            <div id="errorMessage" style="display: none; color: red;"></div>
+        </section>
+    </main>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const email = document.getElementById('correoElectronico').value;
+            const password = document.getElementById('contraseña').value;
+            const errorMessage = document.getElementById('errorMessage');
+
+            fetch('/submit-login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ correoElectronico: email, contraseña: password })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.exito) {
+                    window.location.href = '/login-exitoso';
+                } else {
+                    errorMessage.textContent = data.mensaje;
+                    errorMessage.style.display = 'block';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                errorMessage.textContent = 'Ocurrió un error. Por favor, inténtelo de nuevo.';
+                errorMessage.style.display = 'block';
+            });
+        });
+    </script>
+</body>
+</html>

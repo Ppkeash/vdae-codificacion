@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../estilos/styles.css">
+    <title>Carrito de Compras</title>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="../estilos/logo-no-background.png" alt="Logo VDAE">
+            <h1>VDAE</h1>
+        </div>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="catalogo.html">Catálogo</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="registro.html">Registro</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Carrito de Compras</h2>
+        <section class="cart-items" id="lista-carrito">
+            <!-- Los productos del carrito se generarán aquí dinámicamente -->
+        </section>
+
+        <section class="cart-summary">
+            <p id="total-carrito">Total: $0.00</p>
+            <button class="checkout">Proceder al pago</button>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2024 VDAE. Todos los derechos reservados.</p>
+    </footer>
+
+    <!-- Script para manejar el carrito -->
+    <script src="../scripts/carrito.js"></script>
+</body>
+</html>

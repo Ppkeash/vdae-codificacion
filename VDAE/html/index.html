@@ -14,7 +14,7 @@
         <nav>
             <ul class="main-nav">
                 <li><a href="/html/index.html">Inicio</a></li>
-                <li><a href="#">Catálogo</a></li>
+                <li><a href="/html/catalogo.html">Catálogo</a></li>
                 <li><a href="/html/contacto.html">Contacto</a></li>
             </ul>
             <ul class="auth-nav">
@@ -24,11 +24,13 @@
         </nav>
         <div class="search-cart">
             <img src="/estilos/lupa.png" alt="Buscar">
-            <img src="/estilos/carrito-de-compras.png" alt="Carrito">
+            <a href="/html/carrito.html">
+                <img src="/estilos/carrito-de-compras.png" alt="Carrito">
+            </a>
         </div>
     </header>
     <main>
-        <section class="banner">
+        <section class="banner">    
             <img src="/estilos/banner_vdae.png" alt="Banner">
             <div class="banner-text">
                 <h1><strong>¡Bienvenidos a VDAE!</strong></h1>
@@ -40,17 +42,42 @@
         <section class="productos-oferta">
             <h2>¡PRODUCTOS EN OFERTA!</h2>
             <div class="productos">
-                <div class="producto">
-                    <img src="imagenes/producto1.png" alt="Producto 1">
+                <!-- Tarjetas de productos en oferta -->
+                <div class="tarjeta-producto">
+                    <img src="/estilos/imgs_productos/mouse_teclado y raton.jpg" alt="Producto 1">
+                    <div class="info-producto">
+                        <h3>Teclado Y Mouse Set A</h3>
+                        <p class="descripcion">Juego de teclado y ratón inalámbricos para el hogar y la Oficina, portátil, Delgado y a prueba de salpicaduras, teclado y ratón, teclado universal para oficina.</p>
+                        <p class="precio">Precio: $90.000</p>
+                        <button>Añadir al carrito</button>
+                    </div>
                 </div>
-                <div class="producto">
+                <div class="tarjeta-producto">
                     <img src="imagenes/producto2.png" alt="Producto 2">
+                    <div class="info-producto">
+                        <h3>Producto 2</h3>
+                        <p class="descripcion">Descripción corta del producto.</p>
+                        <p class="precio">Precio: $150</p>
+                        <button>Añadir al carrito</button>
+                    </div>
                 </div>
-                <div class="producto">
+                <div class="tarjeta-producto">
                     <img src="imagenes/producto3.png" alt="Producto 3">
+                    <div class="info-producto">
+                        <h3>Producto 3</h3>
+                        <p class="descripcion">Descripción corta del producto.</p>
+                        <p class="precio">Precio: $120</p>
+                        <button>Añadir al carrito</button>
+                    </div>
                 </div>
-                <div class="producto">
+                <div class="tarjeta-producto">
                     <img src="imagenes/producto4.png" alt="Producto 4">
+                    <div class="info-producto">
+                        <h3>Producto 4</h3>
+                        <p class="descripcion">Descripción corta del producto.</p>
+                        <p class="precio">Precio: $90</p>
+                        <button>Añadir al carrito</button>
+                    </div>
                 </div>
             </div>
         </section>
@@ -61,22 +88,74 @@
                 <input type="text" placeholder="Buscar productos...">
             </div>
             <div class="lista-productos">
-                <!-- Tarjeta de Producto -->
+                <!-- Tarjetas de productos generales -->
                 <div class="tarjeta-producto">
-                    <img src="producto1.jpg" alt="Producto 1">
-                    <h3>Producto 1</h3>
-                    <p>Precio: $100</p>
-                    <button>Añadir al carrito</button>
+                    <img src="imagenes/producto1.png" alt="Producto 1">
+                    <div class="info-producto">
+                        <h3>Producto 1</h3>
+                        <p class="descripcion">Descripción corta del producto.</p>
+                        <p class="precio">Precio: $100</p>
+                        <button>Añadir al carrito</button>
+                    </div>
                 </div>
-                <!-- Repite las tarjetas de productos según sea necesario -->
                 <div class="tarjeta-producto">
-                    <img src="producto2.jpg" alt="Producto 2">
-                    <h3>Producto 2</h3>
-                    <p>Precio: $150</p>
-                    <button>Añadir al carrito</button>
+                    <img src="imagenes/producto2.png" alt="Producto 2">
+                    <div class="info-producto">
+                        <h3>Producto 2</h3>
+                        <p class="descripcion">Descripción corta del producto.</p>
+                        <p class="precio">Precio: $150</p>
+                        <button>Añadir al carrito</button>
+                    </div>
                 </div>
+                <div class="tarjeta-producto">
+                    <img src="imagenes/producto3.png" alt="Producto 3">
+                    <div class="info-producto">
+                        <h3>Producto 3</h3>
+                            <p class="descripcion">Descripción corta del producto.</p>
+                        <p class="precio">Precio: $120</p>
+                        <button>Añadir al carrito</button>
+                    </div>
+                </div>
+                <!-- Agrega más tarjetas según sea necesario -->
             </div>
         </section>
     </main>
+
+    <div id="confirmacion-carrito" class="modal">
+        <div class="modal-content">
+            <p>¡Producto añadido al carrito!</p>
+        </div>
+    </div>
+    
+    <script>
+        // Simulación de añadir al carrito
+        const botonesCarrito = document.querySelectorAll('.tarjeta-producto button');
+        
+        botonesCarrito.forEach(boton => {
+            boton.addEventListener('click', function() {
+                // Mostrar el modal de confirmación
+                const modal = document.getElementById('confirmacion-carrito');
+                modal.style.display = 'block';
+                
+                // Ocultar el modal después de 2 segundos
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                }, 2000);
+        
+                // Añadir el producto al carrito (simulado)
+                const producto = this.parentNode;
+                const productoImagen = producto.querySelector('img').src;
+                const productoNombre = producto.querySelector('h3').textContent;
+                const productoPrecio = producto.querySelector('p').textContent;
+        
+                // Guardar en el localStorage
+                const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+                carrito.push({imagen: productoImagen, nombre: productoNombre, precio: productoPrecio});
+                localStorage.setItem('carrito', JSON.stringify(carrito));
+            });
+        });
+        </script>
+        
+
 </body>
 </html>

@@ -30,6 +30,7 @@ definition: {
 };
 
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
+app.use(express.static(path.join(__dirname)));
 
 // Ruta para la documentación de Swagger
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
@@ -274,18 +275,43 @@ app.get('/registro-exitoso', (req, res) => {
     res.sendFile(path.join(__dirname, 'html', 'registro-exitoso.html'));
 });
 
+// API DE PRODUCTOS
+
+// Middleware para manejar errores de consulta
+const handleQueryError = (res, error, errorMessage) => {
+    console.error(errorMessage, error);
+    res.status(500).json({ error: errorMessage });
+};
+
 // API: Listar todos los productos
 app.get('/api/productos', (req, res) => {
+    console.log('Solicitud recibida para /api/productos');
     const query = 'SELECT * FROM productos';
     connection.query(query, (err, results) => {
         if (err) {
-            console.error('Error al obtener productos:', err);
-            res.status(500).json({ error: 'Error al obtener productos' });
+            handleQueryError(res, err, 'Error al obtener productos');
             return;
         }
         res.json(results);
     });
 });
+
+// API: Obtener productos en oferta
+app.get('/api/productos/ofertas', (req, res) => {
+    console.log('Solicitud recibida para /api/productos/ofertas');
+    const query = 'SELECT * FROM productos WHERE EnOferta = 1';
+    connection.query(query, (err, results) => {
+        if (err) {
+            console.error('Error al obtener productos en oferta:', err);
+            return res.status(500).json({ error: 'Error interno del servidor al obtener ofertas' });
+        }
+        if (results.length === 0) {
+            return res.status(404).json({ message: 'No se encontraron productos en oferta' });
+        }
+        res.json(results);
+    });
+});
+
 
 // API: Obtener un producto por ID
 app.get('/api/productos/:id', (req, res) => {
@@ -293,8 +319,7 @@ app.get('/api/productos/:id', (req, res) => {
     const query = 'SELECT * FROM productos WHERE ProductoID = ?';
     connection.query(query, [id], (err, results) => {
         if (err) {
-            console.error('Error al obtener el producto:', err);
-            res.status(500).json({ error: 'Error al obtener el producto' });
+            handleQueryError(res, err, 'Error al obtener el producto');
             return;
         }
         if (results.length === 0) {
@@ -311,8 +336,7 @@ app.post('/api/productos', (req, res) => {
     const query = 'INSERT INTO productos (Nombre, Descripcion, Precio, Stock) VALUES (?, ?, ?, ?)';
     connection.query(query, [Nombre, Descripcion, Precio, Stock], (err, result) => {
         if (err) {
-            console.error('Error al crear el producto:', err);
-            res.status(500).json({ error: 'Error al crear el producto' });
+            handleQueryError(res, err, 'Error al crear el producto');
             return;
         }
         res.status(201).json({ id: result.insertId, Nombre, Descripcion, Precio, Stock });
@@ -326,8 +350,7 @@ app.put('/api/productos/:id', (req, res) => {
     const query = 'UPDATE productos SET Nombre = ?, Descripcion = ?, Precio = ?, Stock = ? WHERE ProductoID = ?';
     connection.query(query, [Nombre, Descripcion, Precio, Stock, id], (err, result) => {
         if (err) {
-            console.error('Error al actualizar el producto:', err);
-            res.status(500).json({ error: 'Error al actualizar el producto' });
+            handleQueryError(res, err, 'Error al actualizar el producto');
             return;
         }
         if (result.affectedRows === 0) {
@@ -344,8 +367,7 @@ app.delete('/api/productos/:id', (req, res) => {
     const query = 'DELETE FROM productos WHERE ProductoID = ?';
     connection.query(query, [id], (err, result) => {
         if (err) {
-            console.error('Error al eliminar el producto:', err);
-            res.status(500).json({ error: 'Error al eliminar el producto' });
+            handleQueryError(res, err, 'Error al eliminar el producto');
             return;
         }
         if (result.affectedRows === 0) {
@@ -357,27 +379,35 @@ app.delete('/api/productos/:id', (req, res) => {
 });
 
 
-app.get('/api/productos', (req, res) => {
-    console.log('Solicitud recibida para /api/productos');
-    const query = 'SELECT * FROM productos';
-    // ... resto del código
-});
-
 // API DEL CARRITO
 
 // Añadir al carrito
 app.post('/api/carrito', (req, res) => {
     const { usuario_id, productoID, cantidad } = req.body;
+
+    // Validación de datos
+    if (!usuario_id || !productoID || !cantidad) {
+        return res.status(400).json({ error: 'Faltan datos requeridos' });
+    }
+
+    if (typeof cantidad !== 'number' || cantidad <= 0) {
+        return res.status(400).json({ error: 'La cantidad debe ser un número positivo' });
+    }
+
     const query = 'INSERT INTO carrito (usuario_id, productoID, cantidad) VALUES (?, ?, ?)';
 
     connection.query(query, [usuario_id, productoID, cantidad], (err, result) => {
         if (err) {
             console.error('Error al añadir al carrito:', err);
-            return res.status(500).json({ error: 'Error al añadir al carrito' });
+            if (err.code === 'ER_DUP_ENTRY') {
+                return res.status(409).json({ error: 'El producto ya está en el carrito' });
+            }
+            return res.status(500).json({ error: 'Error interno del servidor al añadir al carrito' });
         }
         res.status(201).json({ message: 'Producto añadido al carrito', id: result.insertId });
     });
 });
+
 
 // Eliminar del carrito
 app.delete('/api/carrito/:id', (req, res) => {
@@ -471,8 +501,7 @@ app.post('/api/pedidos', (req, res) => {
 });
 
 
-
 // Iniciar el servidor
-app.listen(port, () => {
-    console.log(`Servidor escuchando en http://localhost:${port}`);
+app.listen(port, '0.0.0.0', () => {
+    console.log(`Servidor escuchando en http://192.168.1.3:${port}`);
 });

@@ -3,43 +3,217 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../estilos/styles.css">
-    <title>Catálogo de Productos</title>
+    <title>VDAE - Catálogo</title>
+    <link rel="stylesheet" href="/estilos/styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <header>
         <div class="logo">
-            <img src="../estilos/logo-no-background.png" alt="Logo VDAE">
-            <h1>VDAE</h1>
+            <img src="/estilos/logo-no-background.png" alt="VDAE Logo">
         </div>
-        <nav class="main-nav">
-            <ul>
-                <li><a href="index.html">Inicio</a></li>
-                <li><a href="catalogo.html">Catálogo</a></li>
-                <li><a href="contacto.html">Contacto</a></li>
-                <li><a href="login.html">Login</a></li>
-                <li><a href="registro.html">Registro</a></li>
+        <nav>
+            <ul class="main-nav">
+                <li><a href="/html/index.html">Inicio</a></li>
+                <li><a href="/html/catalogo.html">Catálogo</a></li>
+                <li><a href="/html/contacto.html">Contacto</a></li>
+            </ul>
+            <ul class="auth-nav">
+                <li><a href="/html/login.html">Login</a></li>
+                <li><a href="/html/registro.html">Registro</a></li>
             </ul>
         </nav>
-    </header>
-
-    <main>
-        <h2>Catálogo de Productos</h2>
-        <section class="product-list">
-            <!-- Producto ejemplo -->
-            <div class="product-card">
-                <img src="../ruta_a_imagen_producto.jpg" alt="Nombre del Producto">
-                <h3>Nombre del Producto</h3>
-                <p>Descripción breve del producto.</p>
-                <p>Precio: $XXX.XX</p>
-                <button class="add-to-cart">Añadir al carrito</button>
+        <div class="search-cart">
+            <div class="search-container">
+                <input type="text" id="search-input" placeholder="Buscar productos...">
+                <button id="search-button">
+                    <img src="/estilos/lupa.png" alt="Buscar" class="search-icon">
+                </button>
             </div>
-            <!-- Repetir para cada producto -->
+            <a href="/html/carrito.html" id="cart-icon">
+                <img src="/estilos/carrito-de-compras.png" alt="Carrito">
+                <span id="cart-count">0</span>
+            </a>
+        </div>
+    </header>
+    <main>
+        <section class="productos-oferta">
+            <h2>¡HECHA UN VISTAZO A NUESTRO CATALOGO!</h2>
+            <div class="productos" id="ofertas-container">
+                <!-- Los productos en oferta se cargarán aquí dinámicamente -->
+            </div>
+        </section>
+    
+        <section class="productos">
+            <h2>Nuestros Productos</h2>
+            <div class="filtro-busqueda">
+                <select id="category-filter">
+                    <option value="">Todas las categorías</option>
+                    <option value="electronica">Electrónica</option>
+                    <option value="hogar">Hogar</option>
+                    <option value="moda">Moda</option>
+                </select>
+                <input type="number" id="min-price" placeholder="Precio mínimo">
+                <input type="number" id="max-price" placeholder="Precio máximo">
+                <button id="apply-filters">Aplicar filtros</button>
+            </div>
+            <div class="lista-productos" id="product-container">
+                <!-- Los productos se cargarán aquí dinámicamente -->
+            </div>
         </section>
     </main>
 
+    <div id="confirmacion-carrito" class="modal">
+        <div class="modal-content">
+            <p>¡Producto añadido al carrito!</p>
+            <p>Total del carrito: $<span id="cart-total">0.00</span></p>
+        </div>
+    </div>
+    
     <footer>
         <p>© 2024 VDAE. Todos los derechos reservados.</p>
     </footer>
+
+    <script>
+    $(document).ready(function() {
+        let usuarioId = null;
+        let cart = {
+            items: [],
+            total: 0
+        };
+
+        function simularInicioSesion() {
+            usuarioId = 1;
+            console.log('Usuario simulado con ID:', usuarioId);
+        }
+
+        function loadCart() {
+            const savedCart = localStorage.getItem('cart');
+            if (savedCart) {
+                cart = JSON.parse(savedCart);
+                updateCartDisplay();
+            }
+        }
+
+        function saveCart() {
+            localStorage.setItem('cart', JSON.stringify(cart));
+        }
+
+        function loadProducts() {
+            var category = $('#category-filter').val();
+            var minPrice = $('#min-price').val();
+            var maxPrice = $('#max-price').val();
+            var searchQuery = $('#search-input').val();
+
+            $.ajax({
+                url: '/api/productos',
+                method: 'GET',
+                data: { category, minPrice, maxPrice, search: searchQuery },
+                success: displayProducts,
+                error: function(error) {
+                    console.error('Error al cargar productos:', error);
+                }
+            });
+        }
+
+        function loadOffers() {
+            $.ajax({
+                url: '/api/productos/ofertas',
+                method: 'GET',
+                success: displayOffers,
+                error: function(error) {
+                    console.error('Error al cargar ofertas:', error);
+                }
+            });
+        }
+
+        function displayProducts(products) {
+            var container = $('#product-container');
+            container.empty();
+
+            if (products.length === 0) {
+                container.html('<p>No se encontraron productos que coincidan con los criterios de búsqueda.</p>');
+                return;
+            }
+
+            products.forEach(function(product) {
+                container.append(createProductHtml(product));
+            });
+        }
+
+        function displayOffers(products) {
+            var container = $('#ofertas-container');
+            container.empty();
+            products.forEach(function(product) {
+                container.append(createProductHtml(product));
+            });
+        }
+
+        function createProductHtml(product) {
+            return `
+                <div class="tarjeta-producto">
+                    <img src="${product.ImagenURL || '/estilos/producto-default.jpg'}" alt="${product.Nombre}">
+                    <div class="info-producto">
+                        <h3>${product.Nombre}</h3>
+                        <p class="descripcion">${product.Descripcion}</p>
+                        <p class="precio">$${product.Precio.toFixed(2)}</p>
+                        <button class="add-to-cart" data-id="${product.ProductoID}" data-name="${product.Nombre}" data-price="${product.Precio}">Añadir al carrito</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function addToCart(productId, productName, price) {
+            if (!usuarioId) {
+                alert('Por favor, inicia sesión para añadir productos al carrito.');
+                return;
+            }
+
+            let existingItem = cart.items.find(item => item.id === productId);
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.items.push({ id: productId, name: productName, quantity: 1, price: parseFloat(price) });
+            }
+            cart.total += parseFloat(price);
+            updateCartDisplay();
+            saveCart();
+            showConfirmation();
+        }
+
+        function updateCartDisplay() {
+            let itemCount = cart.items.reduce((total, item) => total + item.quantity, 0);
+            $('#cart-count').text(itemCount);
+            $('#cart-total').text(cart.total.toFixed(2));
+        }
+
+        function showConfirmation() {
+            const modal = $('#confirmacion-carrito');
+            modal.show();
+            setTimeout(() => {
+                modal.hide();
+            }, 2000);
+        }
+
+        // Event listeners
+        $('#search-button, #apply-filters').click(loadProducts);
+        $('#search-input').keypress(function(e) {
+            if (e.which == 13) loadProducts();
+        });
+
+        $(document).on('click', '.add-to-cart', function() {
+            var productId = $(this).data('id');
+            var productName = $(this).data('name');
+            var price = $(this).data('price');
+            addToCart(productId, productName, price);
+        });
+
+        // Inicialización
+        simularInicioSesion();
+        loadCart();
+        loadProducts();
+        loadOffers();
+    });
+    </script>
 </body>
 </html>

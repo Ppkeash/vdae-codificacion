@@ -1,5 +1,4 @@
-/* INDEX.HTML*/ 
-
+/* Estilos globales */
 * {
     margin: 0;
     padding: 0;
@@ -11,6 +10,21 @@ body {
     background-color: #f9f9f9;
 }
 
+button, .btn {
+    background-color: #333;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+button:hover, .btn:hover {
+    background-color: #555;
+}
+
+/* Header y navegación */
 header {
     background-color: white;
     padding: 1rem 2rem;
@@ -18,7 +32,6 @@ header {
     justify-content: space-between;
     align-items: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    position: relative;
 }
 
 .logo img {
@@ -38,15 +51,6 @@ nav ul {
     margin: 0;
 }
 
-.main-nav {
-    margin-right: auto;
-}
-
-.auth-nav {
-    margin-left: auto;
-    display: flex;
-}
-
 nav ul li {
     margin: 0 1rem;
 }
@@ -55,6 +59,15 @@ nav ul li a {
     text-decoration: none;
     color: #333;
     font-weight: bold;
+}
+
+.main-nav {
+    margin-right: auto;
+}
+
+.auth-nav {
+    margin-left: auto;
+    display: flex;
 }
 
 .search-cart {
@@ -66,10 +79,11 @@ nav ul li a {
     margin-left: 1rem;
 }
 
+/* Banner */
 .banner {
     position: relative;
     text-align: center;
-    color: rgb(0, 0, 0);
+    color: #000;
 }
 
 .banner img {
@@ -94,25 +108,13 @@ nav ul li a {
     margin-bottom: 1rem;
 }
 
-.banner-text button {
-    background-color: #333;
-    color: white;
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.banner-text button:hover {
-    background-color: #555;
-}
-
-.productos-oferta {
+/* Secciones de productos */
+.productos-oferta, .contacto, .login, .registro, .contact-success {
     text-align: center;
-    padding: 2rem 1rem;
+    padding: 4rem 1rem;
 }
 
-.productos-oferta h2 {
+h2, h1 {
     margin-bottom: 2rem;
 }
 
@@ -122,95 +124,30 @@ nav ul li a {
     flex-wrap: wrap;
 }
 
-.producto {
-    flex: 1 1 22%;
+.producto, .tarjeta-producto, .product-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
     margin: 0.5rem;
 }
 
-.producto img {
+.producto img, .tarjeta-producto img, .product-card img {
     width: 100%;
     height: auto;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/*contacto.html*/
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: Arial, sans-serif;
-    background-color: #fff;
-}
-
-header {
-    background-color: white;
-    padding: 1rem 2rem;
+.lista-productos, .product-list {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.logo img {
-    max-height: 50px;
-}
-
-nav {
-    display: flex;
-    align-items: center;
-    flex-grow: 1;
+    flex-wrap: wrap;
+    gap: 20px;
     justify-content: center;
+    margin: 20px 0;
 }
 
-nav ul {
-    list-style: none;
-    display: flex;
-    margin: 0;
-}
-
-.main-nav {
-    margin-right: auto;
-}
-
-.auth-nav {
-    margin-left: auto;
-    display: flex;
-}
-
-nav ul li {
-    margin: 0 1rem;
-}
-
-nav ul li a {
-    text-decoration: none;
-    color: #333;
-    font-weight: bold;
-}
-
-.search-cart {
-    display: flex;
-}
-
-.search-cart img {
-    max-height: 20px;
-    margin-left: 1rem;
-}
-
-.contacto {
-    text-align: center;
-    padding: 4rem 1rem;
-}
-
-.contacto h1 {
-    font-size: 2.5rem;
-    margin-bottom: 2rem;
-}
-
+/* Formulario */
 form {
     max-width: 600px;
     margin: 0 auto;
@@ -226,173 +163,30 @@ form {
     margin-bottom: 1.5rem;
 }
 
-.form-group input,
-.form-group textarea {
+.form-group input, .form-group textarea {
     width: 100%;
     padding: 1rem;
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 1rem;
     background-color: #f9f9f9;
-}
-
-.form-group input::placeholder,
-.form-group textarea::placeholder {
-    color: #aaa;
-}
-
-.form-group input {
     margin-bottom: 1rem;
 }
 
-button {
-    background-color: #333;
-    color: white;
-    padding: 0.75rem 1.5rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
-}
-
-button:hover {
-    background-color: #555;
-}
-
-/*login.html*/
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: Arial, sans-serif;
-    background-color: #fff;
-}
-
-header {
-    background-color: white;
-    padding: 1rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.logo img {
-    max-height: 50px;
-}
-
-nav {
-    display: flex;
-    align-items: center;
-    flex-grow: 1;
-    justify-content: center;
-}
-
-nav ul {
-    list-style: none;
-    display: flex;
-    margin: 0;
-}
-
-.main-nav {
-    margin-right: auto;
-}
-
-.auth-nav {
-    margin-left: auto;
-    display: flex;
-}
-
-nav ul li {
-    margin: 0 1rem;
-}
-
-nav ul li a {
-    text-decoration: none;
-    color: #333;
-    font-weight: bold;
-}
-
-.search-cart {
-    display: flex;
-}
-
-.search-cart img {
-    max-height: 20px;
-    margin-left: 1rem;
-}
-
-.login {
-    text-align: center;
-    padding: 4rem 1rem;
-}
-
-.login h1 {
-    font-size: 2.5rem;
-    margin-bottom: 2rem;
-}
-
-form {
-    max-width: 50%;
-    margin: 0 auto;
-    padding: 2rem;
-}
-
-.form-group {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 1.5rem;
-}
-
-.form-group input {
-    width: 100%;
-    padding: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 25px;
-    font-size: 1rem;
-    background-color: #f9f9f9;
-    margin-bottom: 1rem;
-}
-
-.form-group input::placeholder {
+.form-group input::placeholder, .form-group textarea::placeholder {
     color: #aaa;
 }
 
+/* Textos adicionales */
 .forgot-register {
     margin-top: 1.5rem;
 }
 
-.forgot-password,
-.register {
-    margin-bottom: 1.5rem;
-}
-
-.forgot-password a {
+.forgot-password a, .register a {
     text-decoration: none;
     color: #333;
     font-size: 0.9rem;
-}
-
-.forgot-password a span {
     font-weight: bold;
-}
-
-button {
-    background-color: #333;
-    color: white;
-    padding: 0.75rem 1.5rem;
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    font-size: 1rem;
-}
-
-button:hover {
-    background-color: #555;
 }
 
 .register p {
@@ -400,213 +194,7 @@ button:hover {
     color: #333;
 }
 
-.register a {
-    text-decoration: none;
-    color: #333;
-    font-weight: bold;
-}
-
-.register a span {
-    font-weight: bold;
-    color: #555;
-}
-
-
-/*registro.html*/
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: Arial, sans-serif;
-    background-color: #fff;
-}
-
-header {
-    background-color: white;
-    padding: 1rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.logo img {
-    max-height: 50px;
-}
-
-nav {
-    display: flex;
-    align-items: center;
-    flex-grow: 1;
-    justify-content: center;
-}
-
-nav ul {
-    list-style: none;
-    display: flex;
-    margin: 0;
-}
-
-.main-nav {
-    margin-right: auto;
-}
-
-.auth-nav {
-    margin-left: auto;
-    display: flex;
-}
-
-nav ul li {
-    margin: 0 1rem;
-}
-
-nav ul li a {
-    text-decoration: none;
-    color: #333;
-    font-weight: bold;
-}
-
-.search-cart {
-    display: flex;
-}
-
-.search-cart img {
-    max-height: 20px;
-    margin-left: 1rem;
-}
-
-.registro {
-    text-align: center;
-    padding: 4rem 1rem;
-}
-
-.registro h1 {
-    font-size: 2.5rem;
-    margin-bottom: 2rem;
-}
-
-form {
-    max-width: 50%;
-    margin: 0 auto;
-    padding: 2rem;
-}
-
-.form-group {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 1.5rem;
-}
-
-.form-group input {
-    width: 100%;
-    padding: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 25px;
-    font-size: 1rem;
-    background-color: #f9f9f9;
-    margin-bottom: 1rem;
-}
-
-.form-group input::placeholder {
-    color: #aaa;
-}
-
-.forgot-register {
-    margin-top: 1.5rem;
-}
-
-.forgot-password,
-.register {
-    margin-bottom: 1.5rem;
-}
-
-.forgot-password a {
-    text-decoration: none;
-    color: #333;
-    font-size: 0.9rem;
-}
-
-.forgot-password a span {
-    font-weight: bold;
-}
-
-button {
-    background-color: #333;
-    color: white;
-    padding: 0.75rem 1.5rem;
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    font-size: 1rem;
-}
-
-button:hover {
-    background-color: #555;
-}
-
-.register p {
-    font-size: 1.2rem;
-    color: #333;
-}
-
-.register a {
-    text-decoration: none;
-    color: #333;
-    font-weight: bold;
-}
-
-.register a span {
-    font-weight: bold;
-    color: #555;
-}
-
-/* Estilo para las tarjetas de productos */
-.lista-productos {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-.tarjeta-producto {
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 20px;
-    text-align: center;
-    width: calc(33.333% - 20px);
-    box-sizing: border-box;
-}
-
-.tarjeta-producto img {
-    max-width: 100%;
-    height: auto;
-}
-
-.tarjeta-producto h3 {
-    font-size: 1.2em;
-    margin: 10px 0;
-}
-
-.tarjeta-producto p {
-    color: #555;
-}
-
-.tarjeta-producto button {
-    padding: 10px 20px;
-    background-color: #333;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-.tarjeta-producto button:hover {
-    background-color: #555;
-}
-
+/* Footer */
 footer {
     background-color: #333;
     color: #fff;
@@ -614,197 +202,10 @@ footer {
     padding: 10px 0;
     position: fixed;
     width: 100%;
-    bottom: 0;
-}
-
-/* CONTACTO EXITOSO */
-
-.contact-success {
-    background-color: #f9f9f9;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    max-width: 600px;
-    width: 100%;
-    margin: 2rem auto;
-}
-
-.contact-success h1 {
-    font-size: 2.5rem;
-    margin-bottom: 1.5rem;
-}
-
-.contact-success p {
-    font-size: 1.5rem;
-    margin-bottom: 2rem;
-}
-
-.contact-success .btn {
-    display: inline-block;
-    padding: 0.75rem 1.5rem;
-    border: none;
-    border-radius: 5px;
-    background-color: #333;
-    color: #fff;
-    text-decoration: none;
-    font-size: 1rem;
-    cursor: pointer;
-}
-
-.contact-success .btn:hover {
-    background-color: #555;
-}
-
-/* CATALOGO */
-
-.product-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-    margin: 20px 0;
-}
-
-.product-card {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 16px;
-    width: 200px;
-    text-align: center;
-}
-
-.product-card img {
-    width: 100%;
-    height: auto;
-    border-bottom: 1px solid #ddd;
-    margin-bottom: 10px;
-}
-
-.product-card h3 {
-    font-size: 18px;
-    margin: 10px 0;
-}
-
-.product-card p {
-    font-size: 14px;
-    margin: 5px 0;
-}
-
-.add-to-cart {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 10px;
-}
-
-.add-to-cart:hover {
-    background-color: #45a049;
-}
-
-/* CARRITO */
-
-.cart-items {
-    margin: 20px 0;
-    padding: 10px;
-}
-
-.cart-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid #ddd;
-    padding: 10px 0;
-}
-
-.cart-item img {
-    width: 80px;
-    height: auto;
-    margin-right: 20px;
-}
-
-.cart-item h3 {
-    flex: 1;
-}
-
-.cart-item p {
-    margin: 0;
-}
-
-.remove-from-cart {
-    background-color: #f44336;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.remove-from-cart:hover {
-    background-color: #e53935;
-}
-
-.cart-summary {
-    text-align: right;
-    margin-top: 20px;
-}
-
-.checkout {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 10px;
-}
-
-.checkout:hover {
-    background-color: #45a049;
+    bottom: 0;
 }
 
 /* ESTILOS DE PRODUCTOS [PRUEBA] */
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
-}
-
-header {
-    background-color: white;
-    padding: 1rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    position: relative;
-}
-
-.logo img {
-    max-height: 50px;
-}
-
-nav {
-    display: flex;
-    align-items: center;
-    flex-grow: 1;
-    justify-content: center;
-}
-
-nav ul {
-    list-style: none;
-    display: flex;
-    margin: 0;
-}
 
 .main-nav {
     margin-right: auto;
@@ -813,16 +214,6 @@ nav ul {
 .auth-nav {
     margin-left: auto;
     display: flex;
-}
-
-nav ul li {
-    margin: 0 1rem;
-}
-
-nav ul li a {
-    text-decoration: none;
-    color: #333;
-    font-weight: bold;
 }
 
 .search-cart {
@@ -972,33 +363,3 @@ nav ul li a {
     transform: translateY(-10px);
 }
 
-
-/*XXXXXXXXXXXXXXXXXX*/
-
-/* Estilo para el modal de confirmación */
-.modal {
-    display: none; 
-    position: fixed; 
-    z-index: 1000; 
-    left: 0; 
-    top: 0; 
-    width: 100%; 
-    height: 100%; 
-    background-color: rgba(0, 0, 0, 0.4); 
-}
-
-.modal-content {
-    background-color: white;
-    margin: 15% auto; 
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%; 
-    max-width: 300px; 
-    text-align: center;
-    border-radius: 10px;
-}
-
-.modal p {
-    font-size: 1.2rem;
-    color: #333;
-}

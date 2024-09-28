@@ -1,79 +1,91 @@
-document.addEventListener("DOMContentLoaded", function() {
-    // Referencias al DOM
-    const listaCarrito = document.getElementById('lista-carrito');
-    const totalCarrito = document.getElementById('total-carrito');
-
-    // Cargar productos desde el localStorage
-    cargarCarrito();
-
-    // Función para cargar productos del carrito
-    function cargarCarrito() {
-        const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-        let total = 0;
-
-        carrito.forEach(producto => {
-            const productoElement = document.createElement('div');
-            productoElement.classList.add('cart-item');
-            productoElement.innerHTML = `
-                <img src="${producto.imagen}" alt="${producto.nombre}">
-                <h3>${producto.nombre}</h3>
-                <p>Precio: $${producto.precio}</p>
-                <input type="number" value="${producto.cantidad}" min="1" data-id="${producto.id}">
-                <button class="remove-from-cart" data-id="${producto.id}">Eliminar</button>
-            `;
-            listaCarrito.appendChild(productoElement);
-            total += producto.precio * producto.cantidad;
-        });
-
-        totalCarrito.textContent = `Total: $${total.toFixed(2)}`;
-
-        // Añadir eventos a los botones
-        agregarEventos();
+$(document).ready(function() {
+    function loadCart() {
+        const savedCart = localStorage.getItem('cart');
+        if (savedCart) {
+            const cart = JSON.parse(savedCart);
+            displayCartItems(cart.items);
+            updateTotal(cart.total);
+        } else {
+            $('#lista-carrito').html('<p>El carrito está vacío.</p>');
+            updateTotal(0);
+        }
     }
 
-    // Función para eliminar un producto del carrito
-    function eliminarProducto(id) {
-        let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-        carrito = carrito.filter(producto => producto.id !== id);
-        localStorage.setItem('carrito', JSON.stringify(carrito));
-        recargarCarrito();
-    }
-
-    // Función para recargar el carrito después de una modificación
-    function recargarCarrito() {
-        listaCarrito.innerHTML = '';
-        cargarCarrito();
-    }
-
-    // Función para añadir eventos a los botones de eliminar y cambiar cantidad
-    function agregarEventos() {
-        const botonesEliminar = document.querySelectorAll('.remove-from-cart');
-        botonesEliminar.forEach(boton => {
-            boton.addEventListener('click', function() {
-                const id = boton.getAttribute('data-id');
-                eliminarProducto(id);
-            });
-        });
-
-        const inputsCantidad = document.querySelectorAll('.cart-item input[type="number"]');
-        inputsCantidad.forEach(input => {
-            input.addEventListener('change', function() {
-                const id = input.getAttribute('data-id');
-                cambiarCantidad(id, input.value);
-            });
+    function displayCartItems(items) {
+        const cartContainer = $('#lista-carrito');
+        cartContainer.empty();
+        if (items.length === 0) {
+            cartContainer.html('<p>El carrito está vacío.</p>');
+            return;
+        }
+        items.forEach(item => {
+            cartContainer.append(`
+                <div class="cart-item">
+                    <h3>${item.name}</h3>
+                    <p>Cantidad: <button class="decrease-qty" data-id="${item.id}">-</button> ${item.quantity} <button class="increase-qty" data-id="${item.id}">+</button></p>
+                    <p>Precio: $${item.price.toFixed(2)}</p>
+                    <p>Subtotal: $${(item.price * item.quantity).toFixed(2)}</p>
+                    <button class="remove-item" data-id="${item.id}">Eliminar</button>
+                </div>
+            `);
         });
     }
 
-    // Función para cambiar la cantidad de un producto en el carrito
-    function cambiarCantidad(id, cantidad) {
-        let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-        carrito = carrito.map(producto => {
-            if (producto.id === id) {
-                producto.cantidad = parseInt(cantidad);
+    function updateTotal(total) {
+        $('#total-carrito').text(`Total: $${total.toFixed(2)}`);
+    }
+
+    function updateItemQuantity(itemId, change) {
+        let cart = JSON.parse(localStorage.getItem('cart'));
+        if (cart) {
+            const item = cart.items.find(item => item.id === itemId);
+            if (item) {
+                // Aumentar o disminuir según el cambio
+                item.quantity += change; 
+                if (item.quantity <= 0) {
+                    removeItem(itemId);
+                } else {
+                    cart.total = cart.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    loadCart();
+                }
             }
-            return producto;
-        });
-        localStorage.setItem('carrito', JSON.stringify(carrito));
-        recargarCarrito();
+        }
     }
+
+    function removeItem(itemId) {
+        let cart = JSON.parse(localStorage.getItem('cart'));
+        if (cart) {
+            cart.items = cart.items.filter(item => item.id !== itemId);
+            cart.total = cart.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            loadCart();
+        }
+    }
+
+    // Cargar el carrito al iniciar la página
+    loadCart();
+
+    // Evento para aumentar la cantidad (de a 1)
+    $(document).on('click', '.increase-qty', function() {
+        const itemId = $(this).data('id');
+        updateItemQuantity(itemId, 0.5); // Aumentar de a 1
+    });
+
+    // Evento para disminuir la cantidad (de 1)
+    $(document).on('click', '.decrease-qty', function() {
+        const itemId = $(this).data('id');
+        updateItemQuantity(itemId, -0.5);
+    });
+
+    // Evento para eliminar items del carrito
+    $(document).on('click', '.remove-item', function() {
+        const itemId = $(this).data('id');
+        removeItem(itemId);
+    });
+
+    // Evento para proceder al pago (puedes personalizar esto según tus necesidades)
+    $('.checkout').click(function() {
+        alert('Procediendo al pago... (Esta funcionalidad aún no está implementada)');
+    });
 });

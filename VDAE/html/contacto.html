@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VDAE - Contacto</title>
     <link rel="stylesheet" href="/estilos/styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <header>
@@ -14,23 +15,30 @@
         <nav>
             <ul class="main-nav">
                 <li><a href="/html/index.html">Inicio</a></li>
-                <li><a href="#">Catálogo</a></li>
+                <li><a href="/html/catalogo.html">Catálogo</a></li>
                 <li><a href="/html/contacto.html">Contacto</a></li>
             </ul>
             <ul class="auth-nav">
                 <li><a href="/html/login.html">Login</a></li>
                 <li><a href="/html/registro.html">Registro</a></li>
             </ul>
-            <div class="search-cart">
-                <img src="/estilos/lupa.png" alt="Buscar">
-                <img src="/estilos/carrito-de-compras.png" alt="Carrito">
-            </div>
         </nav>
+        <div class="search-cart">
+            <div class="search-container">
+                <input type="text" id="search-input" placeholder="Buscar productos...">
+                <button id="search-button">
+                    <img src="/estilos/lupa.png" alt="Buscar" class="search-icon">
+                </button>
+            </div>
+            <a href="/html/carrito.html">
+                <img src="/estilos/carrito-de-compras.png" alt="Carrito">
+            </a>
+        </div>
     </header>
     <main>
         <section class="contacto">
             <h1>Contacto</h1>
-            <form action="/submit-contacto" method="POST">
+            <form id="contactForm">
                 <div class="form-group">
                     <input type="text" id="nombre" name="nombre" placeholder="Nombre" required>
                     <input type="email" id="correoElectronico" name="correoElectronico" placeholder="Correo electrónico" required>
@@ -45,5 +53,46 @@
             </form>
         </section>
     </main>
+
+    <footer>
+        <p>© 2024 VDAE. Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        $(document).ready(function() {
+            $('#search-button').click(function() {
+                performSearch();
+            });
+
+            $('#search-input').keypress(function(e) {
+                if (e.which == 13) { // Enter key
+                    performSearch();
+                }
+            });
+
+            function performSearch() {
+                var query = $('#search-input').val();
+                window.location.href = '/html/catalogo.html?search=' + encodeURIComponent(query);
+            }
+
+            $('#contactForm').submit(function(e) {
+                e.preventDefault();
+                var formData = $(this).serialize();
+
+                $.ajax({
+                    url: '/api/contacto',
+                    method: 'POST',
+                    data: formData,
+                    success: function(response) {
+                        alert('Mensaje enviado con éxito. Gracias por contactarnos.');
+                        $('#contactForm')[0].reset();
+                    },
+                    error: function(error) {
+                        alert('Hubo un error al enviar el mensaje. Por favor, inténtelo de nuevo.');
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

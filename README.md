@@ -1,63 +1,60 @@
-# VDAE - Venta de Aparatos Electrónicos
-
-Este repositorio contiene el proyecto formativo VDAE (Venta de Aparatos Electrónicos), una plataforma de comercio electrónico especializada en la venta de aparatos electrónicos.
+# VDAE - Sistema de Venta y Distribución de Artículos Electrónicos
 
 ## Descripción del Proyecto
 
-VDAE es una plataforma de comercio electrónico que proporciona una interfaz de usuario intuitiva para que los clientes puedan navegar, buscar y comprar productos electrónicos. El proyecto incluye tanto el componente frontend como el backend, ofreciendo una solución completa de e-commerce.
+VDAE (Venta y Distribución de Artículos Electrónicos) es un sistema integral diseñado para gestionar la venta en línea de productos electrónicos. Este proyecto abarca desde el desarrollo del backend hasta la implementación de pruebas exhaustivas, asegurando un producto robusto y de alta calidad.
 
-## Tecnologías Utilizadas por ahora
+## Características Principales
 
-- Frontend:
-  - HTML
-  - CSS
-  - JavaScript
-  - jQuery
-  - Bootstrap
-
-- Backend:
-  - Node.js
-  - Express.js
-  - MySQL
-
-- Herramientas:
-  - Swagger para documentación de API
-  - Postman para pruebas de API
-
-## Funcionalidades Principales
-
-- Catálogo de productos con filtros y búsqueda (en progreso)
+- Catálogo de productos electrónicos
+- Sistema de búsqueda avanzada con filtros
 - Carrito de compras
-- Sistema de registro y login de usuarios
-- API RESTful para manejar productos, carritos y pedidos
+- Gestión de usuarios y autenticación
+- Barra de busqueda para los productos
 
-## Cambios Realizados
+## Tecnologías Utilizadas
 
-- Se ha implementado el módulo de integración de componentes de productos y carrito.
-- Se han desarrollado y probado las siguientes APIs:
-  - GET /api/productos: Listar todos los productos disponibles
-  - POST /api/productos: Crear un nuevo producto
-  - GET /api/productos/{id}: Obtener un producto específico
-  - PUT /api/productos/{id}: Actualizar un producto existente
-  - DELETE /api/productos/{id}: Eliminar un producto
-  - POST /api/carrito: Añadir un producto al carrito
-  - GET /api/carrito: Obtener el contenido del carrito
-  - DELETE /api/carrito/{id}: Eliminar un producto del carrito
-- Se ha actualizado la estructura de la base de datos para soportar productos, carrito y detalles de pedidos.
-- Se ha trabajado en el diseño y desarrollo de servicios web del proyecto.
-- Se ha documentado las APIs con Swagger, accesible en: [http://localhost:3001/api-docs/#/](http://localhost:3001/api-docs/#/)
+- Backend: Node.js con Express.js
+- Frontend: JavaScript, CSS y HTML
+- Base de Datos: MySQL
 
-## Pruebas
 
-Se han realizado pruebas exhaustivas utilizando Postman para verificar el correcto funcionamiento de todas las APIs implementadas, incluyendo operaciones CRUD para productos y carrito.
+## Instalación y Configuración
 
-## Próximos Pasos
+1. Clonar el repositorio:
+   ```
+   git clone https://github.com/tu-usuario/vdae.git
+   cd vdae
+   ```
 
-- Implementar un sistema de pagos
-- Mejorar la interfaz de usuario del frontend
-- Añadir funcionalidades de reseñas y calificaciones de productos
+2. Instalar dependencias:
+   ```
+   cd backend && npm install
+   cd ../frontend && npm install
+   ```
 
-## Documentación
+3. Configurar variables de entorno:
+   - Crear archivos `.env` en las carpetas `backend` y `frontend` siguiendo el ejemplo de `.env.example`.
 
-Para más detalles sobre la implementación y uso de las APIs, consulte la documentación de Swagger en [http://localhost:3001/api-docs/#/](http://localhost:3001/api-docs/#/)
+4. Iniciar el servidor de desarrollo:
+   ```
+   # En la carpeta backend
+   npm run dev
+
+   # En la carpeta frontend
+   npm start
+   ```
+
+
+## Casos de Prueba
+
+Se han desarrollado casos de prueba exhaustivos para asegurar la calidad del sistema. Algunos de los casos de prueba clave incluyen:
+
+- CP-001: Registro de usuario
+- CP-002: Inicio de sesión
+- CP-003: Visualización del catálogo de productos
+- CP-004: Añadir al carrito
+- CP-005: Búsqueda de productos
+
+Para más detalles, consulta la carpeta `docs/TestCases/`.
 

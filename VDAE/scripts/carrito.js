@@ -6,7 +6,7 @@ $(document).ready(function() {
             displayCartItems(cart.items);
             updateTotal(cart.total);
         } else {
-            $('#lista-carrito').html('<p>El carrito está vacío.</p>');
+            $('#lista-carrito').html('<p class="col-12 text-center">El carrito está vacío.</p>');
             updateTotal(0);
         }
     }
@@ -15,17 +15,26 @@ $(document).ready(function() {
         const cartContainer = $('#lista-carrito');
         cartContainer.empty();
         if (items.length === 0) {
-            cartContainer.html('<p>El carrito está vacío.</p>');
+            cartContainer.html('<p class="col-12 text-center">El carrito está vacío.</p>');
             return;
         }
         items.forEach(item => {
             cartContainer.append(`
-                <div class="cart-item">
-                    <h3>${item.name}</h3>
-                    <p>Cantidad: <button class="decrease-qty" data-id="${item.id}">-</button> ${item.quantity} <button class="increase-qty" data-id="${item.id}">+</button></p>
-                    <p>Precio: $${item.price.toFixed(2)}</p>
-                    <p>Subtotal: $${(item.price * item.quantity).toFixed(2)}</p>
-                    <button class="remove-item" data-id="${item.id}">Eliminar</button>
+                <div class="col-md-6 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">${item.name}</h5>
+                            <p class="card-text">
+                                Cantidad: 
+                                <button class="btn btn-sm btn-outline-secondary decrease-qty" data-id="${item.id}">-</button>
+                                <span class="mx-2">${item.quantity}</span>
+                                <button class="btn btn-sm btn-outline-secondary increase-qty" data-id="${item.id}">+</button>
+                            </p>
+                            <p class="card-text">Precio: $${item.price.toFixed(2)}</p>
+                            <p class="card-text">Subtotal: $${(item.price * item.quantity).toFixed(2)}</p>
+                            <button class="btn btn-danger btn-sm remove-item" data-id="${item.id}">Eliminar</button>
+                        </div>
+                    </div>
                 </div>
             `);
         });
@@ -40,8 +49,7 @@ $(document).ready(function() {
         if (cart) {
             const item = cart.items.find(item => item.id === itemId);
             if (item) {
-                // Aumentar o disminuir según el cambio
-                item.quantity += change; 
+                item.quantity += change;
                 if (item.quantity <= 0) {
                     removeItem(itemId);
                 } else {
@@ -69,13 +77,13 @@ $(document).ready(function() {
     // Evento para aumentar la cantidad (de a 1)
     $(document).on('click', '.increase-qty', function() {
         const itemId = $(this).data('id');
-        updateItemQuantity(itemId, 0.5); // Aumentar de a 1
+        updateItemQuantity(itemId, 1);
     });
 
-    // Evento para disminuir la cantidad (de 1)
+    // Evento para disminuir la cantidad (de a 1)
     $(document).on('click', '.decrease-qty', function() {
         const itemId = $(this).data('id');
-        updateItemQuantity(itemId, -0.5);
+        updateItemQuantity(itemId, -1);
     });
 
     // Evento para eliminar items del carrito
@@ -84,7 +92,7 @@ $(document).ready(function() {
         removeItem(itemId);
     });
 
-    // Evento para proceder al pago (puedes personalizar esto según tus necesidades)
+    // Evento para proceder al pago
     $('.checkout').click(function() {
         alert('Procediendo al pago... (Esta funcionalidad aún no está implementada)');
     });

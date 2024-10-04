@@ -5,75 +5,161 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VDAE - Catálogo</title>
     <link rel="stylesheet" href="/estilos/styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .advanced-search {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .advanced-search h3 {
+            margin-bottom: 15px;
+        }
+        .search-results {
+            margin-top: 30px;
+        }
+        .navbar-nav .nav-link {
+            padding: .5rem 1rem;
+        }
+        .search-cart {
+            display: flex;
+            align-items: center;
+        }
+        .search-container {
+            position: relative;
+            margin-right: 10px;
+        }
+        #search-button {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            background: none;
+            border: none;
+        }
+        #cart-icon {
+            position: relative;
+        }
+        #cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 5px;
+            font-size: 0.7em;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <div class="logo">
-            <img src="/estilos/logo-no-background.png" alt="VDAE Logo">
-        </div>
-        <nav>
-            <ul class="main-nav">
-                <li><a href="/html/index.html">Inicio</a></li>
-                <li><a href="/html/catalogo.html">Catálogo</a></li>
-                <li><a href="/html/contacto.html">Contacto</a></li>
-            </ul>
-            <ul class="auth-nav">
-                <li><a href="/html/login.html">Login</a></li>
-                <li><a href="/html/registro.html">Registro</a></li>
-            </ul>
-        </nav>
-        <div class="search-cart">
-            <div class="search-container">
-                <input type="text" id="search-input" placeholder="Buscar productos...">
-                <button id="search-button">
-                    <img src="/estilos/lupa.png" alt="Buscar" class="search-icon">
-                </button>
-            </div>
-            <a href="/html/carrito.html" id="cart-icon">
-                <img src="/estilos/carrito-de-compras.png" alt="Carrito">
-                <span id="cart-count">0</span>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="/html/index.html">
+                <img src="/estilos/logo-no-background.png" alt="VDAE Logo" height="30">
             </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/html/index.html">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/html/catalogo.html">Catálogo</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/html/contacto.html">Contacto</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/html/login.html">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/html/registro.html">Registro</a>
+                    </li>
+                </ul>
+                <div class="search-cart">
+                    <div class="search-container">
+                        <input type="text" id="search-input" class="form-control" placeholder="Buscar productos...">
+                        <button id="search-button">
+                            <img src="/estilos/lupa.png" alt="Buscar" class="search-icon" width="20">
+                        </button>
+                    </div>
+                    <a href="/html/carrito.html" id="cart-icon" class="btn btn-outline-primary">
+                        <img src="/estilos/carrito-de-compras.png" alt="Carrito" width="20">
+                        <span id="cart-count">0</span>
+                    </a>
+                </div>
+            </div>
         </div>
-    </header>
-    <main>
-        <section class="productos-oferta">
-            <h2>¡HECHA UN VISTAZO A NUESTRO CATALOGO!</h2>
-            <div class="productos" id="ofertas-container">
-                <!-- Los productos en oferta se cargarán aquí dinámicamente -->
-            </div>
-        </section>
-    
+    </nav>
+
+    <main class="container mt-4">
         <section class="productos">
-            <h2>Nuestros Productos</h2>
-            <div class="filtro-busqueda">
-                <select id="category-filter">
-                    <option value="">Todas las categorías</option>
-                    <option value="electronica">Electrónica</option>
-                    <option value="hogar">Hogar</option>
-                    <option value="moda">Moda</option>
-                </select>
-                <input type="number" id="min-price" placeholder="Precio mínimo">
-                <input type="number" id="max-price" placeholder="Precio máximo">
-                <button id="apply-filters">Aplicar filtros</button>
+            <h2 class="text-center mb-4">Nuestro Catálogo Completo</h2>
+            <div class="advanced-search">
+                <h3>Búsqueda Avanzada</h3>
+                <form id="searchForm">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" id="searchQuery" placeholder="Buscar productos...">
+                        </div>
+                        <div class="col-md-6">
+                            <select class="form-select" id="categoryFilter">
+                                <option value="">Todas las categorías</option>
+                                <option value="electronica">Electrónica</option>
+                                <option value="hogar">Hogar</option>
+                                <option value="moda">Moda</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="number" class="form-control" id="minPrice" placeholder="Precio mínimo">
+                        </div>
+                        <div class="col-md-6">
+                            <input type="number" class="form-control" id="maxPrice" placeholder="Precio máximo">
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary" id="applyFilters">Buscar</button>
+                        </div>
+                    </div>
+                </form>
             </div>
-            <div class="lista-productos" id="product-container">
-                <!-- Los productos se cargarán aquí dinámicamente -->
+            <div class="search-results">
+                <h3 class="mb-3">Productos</h3>
+                <div class="row" id="product-container">
+                    <!-- Los productos se cargarán aquí dinámicamente -->
+                </div>
             </div>
         </section>
     </main>
 
-    <div id="confirmacion-carrito" class="modal">
-        <div class="modal-content">
-            <p>¡Producto añadido al carrito!</p>
-            <p>Total del carrito: $<span id="cart-total">0.00</span></p>
+    <div id="confirmacion-carrito" class="modal fade" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Producto añadido al carrito</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>¡Producto añadido al carrito!</p>
+                    <p>Total del carrito: $<span id="cart-total">0.00</span></p>
+                </div>
+            </div>
         </div>
     </div>
     
-    <footer>
-        <p>© 2024 VDAE. Todos los derechos reservados.</p>
+    <footer class="bg-light text-center text-lg-start mt-5">
+        <div class="container p-4">
+            <p>© 2024 VDAE. Todos los derechos reservados.</p>
+        </div>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
     $(document).ready(function() {
         let usuarioId = null;
@@ -81,6 +167,7 @@
             items: [],
             total: 0
         };
+        let allProducts = []; // Almacenará todos los productos
 
         function simularInicioSesion() {
             usuarioId = 1;
@@ -100,31 +187,41 @@
         }
 
         function loadProducts() {
-            var category = $('#category-filter').val();
-            var minPrice = $('#min-price').val();
-            var maxPrice = $('#max-price').val();
-            var searchQuery = $('#search-input').val();
-
             $.ajax({
                 url: '/api/productos',
                 method: 'GET',
-                data: { category, minPrice, maxPrice, search: searchQuery },
-                success: displayProducts,
-                error: function(error) {
+                success: function(data) {
+                    if (data.error) {
+                        $('#product-container').html(`<p class="text-danger">${data.error}</p>`);
+                    } else {
+                        allProducts = data; // Guardamos todos los productos
+                        displayProducts(data);
+                    }
+                },
+                error: function(xhr, status, error) {
                     console.error('Error al cargar productos:', error);
+                    $('#product-container').html('<p class="text-danger">Error al cargar los productos. Por favor, intenta de nuevo.</p>');
                 }
             });
         }
 
-        function loadOffers() {
-            $.ajax({
-                url: '/api/productos/ofertas',
-                method: 'GET',
-                success: displayOffers,
-                error: function(error) {
-                    console.error('Error al cargar ofertas:', error);
-                }
+        function searchProducts(event) {
+            if (event) event.preventDefault();
+            const query = $('#searchQuery').val().toLowerCase();
+            const categoria = $('#categoryFilter').val().toLowerCase();
+            const minPrecio = parseFloat($('#minPrice').val()) || 0;
+            const maxPrecio = parseFloat($('#maxPrice').val()) || Infinity;
+
+            const filteredProducts = allProducts.filter(product => {
+                const matchesQuery = product.Nombre.toLowerCase().includes(query) || 
+                                        product.Descripcion.toLowerCase().includes(query);
+                const matchesCategoria = !categoria || product.Categoria.toLowerCase() === categoria;
+                const matchesPrecio = product.Precio >= minPrecio && product.Precio <= maxPrecio;
+
+                return matchesQuery && matchesCategoria && matchesPrecio;
             });
+
+            displayProducts(filteredProducts);
         }
 
         function displayProducts(products) {
@@ -132,7 +229,7 @@
             container.empty();
 
             if (products.length === 0) {
-                container.html('<p>No se encontraron productos que coincidan con los criterios de búsqueda.</p>');
+                container.html('<p class="text-muted">No se encontraron productos que coincidan con los criterios de búsqueda.</p>');
                 return;
             }
 
@@ -141,23 +238,17 @@
             });
         }
 
-        function displayOffers(products) {
-            var container = $('#ofertas-container');
-            container.empty();
-            products.forEach(function(product) {
-                container.append(createProductHtml(product));
-            });
-        }
-
         function createProductHtml(product) {
             return `
-                <div class="tarjeta-producto">
-                    <img src="${product.ImagenURL || '/estilos/producto-default.jpg'}" alt="${product.Nombre}">
-                    <div class="info-producto">
-                        <h3>${product.Nombre}</h3>
-                        <p class="descripcion">${product.Descripcion}</p>
-                        <p class="precio">$${product.Precio.toFixed(2)}</p>
-                        <button class="add-to-cart" data-id="${product.ProductoID}" data-name="${product.Nombre}" data-price="${product.Precio}">Añadir al carrito</button>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <img src="${product.ImagenURL || '/estilos/producto-default.jpg'}" class="card-img-top" alt="${product.Nombre}">
+                        <div class="card-body">
+                            <h5 class="card-title">${product.Nombre}</h5>
+                            <p class="card-text">${product.Descripcion}</p>
+                            <p class="card-text"><strong>$${product.Precio.toFixed(2)}</strong></p>
+                            <button class="btn btn-primary add-to-cart" data-id="${product.ProductoID}" data-name="${product.Nombre}" data-price="${product.Precio}">Añadir al carrito</button>
+                        </div>
                     </div>
                 </div>
             `;
@@ -188,17 +279,17 @@
         }
 
         function showConfirmation() {
-            const modal = $('#confirmacion-carrito');
-            modal.show();
+            $('#confirmacion-carrito').modal('show');
             setTimeout(() => {
-                modal.hide();
+                $('#confirmacion-carrito').modal('hide');
             }, 2000);
         }
 
         // Event listeners
-        $('#search-button, #apply-filters').click(loadProducts);
-        $('#search-input').keypress(function(e) {
-            if (e.which == 13) loadProducts();
+        $('#searchForm').submit(searchProducts);
+        $('#search-button').click(function() {
+            $('#searchQuery').val($('#search-input').val());
+            searchProducts();
         });
 
         $(document).on('click', '.add-to-cart', function() {
@@ -212,7 +303,17 @@
         simularInicioSesion();
         loadCart();
         loadProducts();
-        loadOffers();
+
+        // Funcionalidad de la barra de navegación responsive
+        $('.navbar-toggler').click(function() {
+            $('.navbar-collapse').toggleClass('show');
+        });
+
+        $('.nav-link').click(function() {
+            if ($(window).width() < 992) {
+                $('.navbar-collapse').removeClass('show');
+            }
+        });
     });
     </script>
 </body>

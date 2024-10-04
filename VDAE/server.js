@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const path = require('path');
 const bcrypt = require('bcrypt');
+const nodemailer = require('nodemailer');
 
 // Agregar estas nuevas líneas para Swagger
 const swaggerJsdoc = require('swagger-jsdoc');
@@ -60,6 +61,43 @@ connection.connect((err) => {
     }
     console.log('Connected to the database');
 });
+
+require('dotenv').config();
+
+
+// Configurar el transporter de nodemailer (esto va fuera de la función)
+const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com", // Este es el host correcto para Gmail
+    port: 587,
+    secure: false, // true para 465, false para otros puertos
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+    }
+});
+
+// Función para enviar correo de confirmación
+async function enviarCorreoConfirmacion(correoElectronico) {
+    let mailOptions = {
+        from: '"VDAE" <guilleilemordiaz@gmail.com>', // Asegúrate de añadir el '>' al final
+        to: correoElectronico,
+        subject: 'Confirma tu registro en VDAE',
+        text: 'Gracias por registrarte en VDAE. Por favor, confirma tu cuenta haciendo clic en el siguiente enlace: [ENLACE_DE_CONFIRMACIÓN]',
+        html: '<p>Gracias por registrarte en VDAE.</p><p>Por favor, confirma tu cuenta haciendo clic en el siguiente enlace: <a href="[ENLACE_DE_CONFIRMACIÓN]">Confirmar cuenta</a></p>'
+    };
+
+    try {
+        let info = await transporter.sendMail(mailOptions);
+        console.log('Correo enviado: %s', info.messageId);
+        return info;
+    } catch (error) {
+        console.error('Error al enviar el correo:', error);
+        throw error;
+    }
+}
+
+module.exports = enviarCorreoConfirmacion;
+
 
 // Configurar el directorio de archivos estáticos
 app.use('/estilos', express.static(path.join(__dirname, 'estilos')));
@@ -213,35 +251,60 @@ app.delete('/clientes/:id', (req, res) => {
     });
 });
 
-// Ruta para manejar el envío del formulario de registro
-app.post('/submit-registro', async (req, res) => {
+// Ruta para manejar el registro de usuarios
+app.post('/api/registro', async (req, res) => {
     const { nombre, apellido, correoElectronico, contraseña } = req.body;
 
     try {
-        // Cifrar la contraseña
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(contraseña, salt);
-
-        // Insertar en la base de datos
-        const query = 'INSERT INTO clientes (Nombre, Apellido, CorreoElectronico, Contraseña) VALUES (?, ?, ?, ?)';
-        connection.query(query, [nombre, apellido, correoElectronico, hashedPassword], (err, result) => {
+        // Verificar si el correo electrónico ya existe
+        const checkEmailQuery = 'SELECT * FROM clientes WHERE CorreoElectronico = ?';
+        connection.query(checkEmailQuery, [correoElectronico], async (err, results) => {
             if (err) {
-                console.error('Error al insertar en la base de datos:', err);
-                res.status(500).send('Error al guardar los datos en la base de datos');
-                return;
+                console.error('Error al verificar el correo electrónico:', err);
+                return res.status(500).send('Error en el servidor');
             }
-            // Redirigir a la página de éxito de registro
-            res.redirect('/registro-exitoso');
+
+            if (results.length > 0) {
+                // El correo electrónico ya existe, redirigir a la página de registro-repetido
+                return res.redirect('/html/registro-error.html');
+            }
+
+            // Si el correo no existe, proceder con el registro
+            const salt = await bcrypt.genSalt(10);
+            const hashedPassword = await bcrypt.hash(contraseña, salt);
+
+            const insertQuery = 'INSERT INTO clientes (Nombre, Apellido, CorreoElectronico, Contraseña) VALUES (?, ?, ?, ?)';
+            connection.query(insertQuery, [nombre, apellido, correoElectronico, hashedPassword], async (err, result) => {
+                if (err) {
+                    console.error('Error al insertar en la base de datos:', err);
+                    return res.status(500).send('Error al guardar los datos en la base de datos');
+                }
+                
+                // Enviar correo de confirmación
+                try {
+                    await enviarCorreoConfirmacion(correoElectronico);
+                    // Redirigir a la página de registro exitoso
+                    res.redirect('/html/registro-exitoso.html');
+                } catch (emailError) {
+                    console.error('Error al enviar el correo de confirmación:', emailError);
+                    // Aún redirigimos a registro exitoso, pero podrías crear una página específica para este caso si lo prefieres
+                    res.redirect('/html/registro-exitoso.html');
+                }
+            });
         });
     } catch (err) {
-        console.error('Error al cifrar la contraseña:', err);
+        console.error('Error en el registro:', err);
         res.status(500).send('Error en el registro');
     }
 });
 
+
+
+
 // Ruta para manejar el inicio de sesión
 app.post('/submit-login', (req, res) => {
     const { correoElectronico, contraseña } = req.body;
+    console.log(`Intento de inicio de sesión para: ${correoElectronico}`);
 
     const query = 'SELECT * FROM clientes WHERE CorreoElectronico = ?';
     connection.query(query, [correoElectronico], async (err, results) => {
@@ -250,16 +313,21 @@ app.post('/submit-login', (req, res) => {
             return res.status(500).json({ mensaje: 'Error al consultar los datos en la base de datos', exito: false });
         }
 
+        console.log(`Resultados de la consulta:`, results);
+
         if (results.length > 0) {
             const cliente = results[0];
             const isMatch = await bcrypt.compare(contraseña, cliente.Contraseña);
 
             if (isMatch) {
-                return res.json({ exito: true });
+                console.log(`Inicio de sesión exitoso para: ${correoElectronico}`);
+                return res.json({ exito: true, redirect: '/login-exitoso' });
             } else {
+                console.log(`Contraseña incorrecta para: ${correoElectronico}`);
                 return res.json({ mensaje: 'Correo electrónico o contraseña incorrecta', exito: false });
             }
         } else {
+            console.log(`Usuario no encontrado: ${correoElectronico}`);
             return res.json({ mensaje: 'Correo electrónico o contraseña incorrecta', exito: false });
         }
     });
@@ -267,8 +335,11 @@ app.post('/submit-login', (req, res) => {
 
 // Página de éxito para el inicio de sesión
 app.get('/login-exitoso', (req, res) => {
+    console.log('Sirviendo página de login exitoso');
     res.sendFile(path.join(__dirname, 'html', 'login-exitoso.html'));
 });
+
+
 
 // Página de éxito para el registro
 app.get('/registro-exitoso', (req, res) => {
@@ -301,16 +372,18 @@ app.get('/api/productos/ofertas', (req, res) => {
     console.log('Solicitud recibida para /api/productos/ofertas');
     const query = 'SELECT * FROM productos WHERE EnOferta = 1';
     connection.query(query, (err, results) => {
-        if (err) {
-            console.error('Error al obtener productos en oferta:', err);
-            return res.status(500).json({ error: 'Error interno del servidor al obtener ofertas' });
-        }
-        if (results.length === 0) {
-            return res.status(404).json({ message: 'No se encontraron productos en oferta' });
-        }
-        res.json(results);
+      if (err) {
+        console.error('Error al obtener productos en oferta:', err);
+        return res.status(500).json({ error: 'Error interno del servidor al obtener ofertas' });
+      }
+      console.log('Resultados de ofertas:', results);
+      if (results.length === 0) {
+        return res.status(404).json({ message: 'No se encontraron productos en oferta' });
+      }
+      res.json(results);
     });
-});
+  });
+  
 
 
 // API: Obtener un producto por ID
@@ -377,6 +450,46 @@ app.delete('/api/productos/:id', (req, res) => {
         }
     });
 });
+
+// API: Búsqueda de productos
+app.get('/api/productos/buscar', (req, res) => {
+    const { query, categoria, minPrecio, maxPrecio } = req.query;
+    let sqlQuery = 'SELECT * FROM productos WHERE 1=1';
+    const params = [];
+
+    if (query) {
+        sqlQuery += ' AND (Nombre LIKE ? OR Descripcion LIKE ?)';
+        params.push(`%${query}%`, `%${query}%`);
+    }
+
+    if (categoria) {
+        sqlQuery += ' AND Categoria = ?';
+        params.push(categoria);
+    }
+
+    if (minPrecio) {
+        sqlQuery += ' AND Precio >= ?';
+        params.push(parseFloat(minPrecio));
+    }
+
+    if (maxPrecio) {
+        sqlQuery += ' AND Precio <= ?';
+        params.push(parseFloat(maxPrecio));
+    }
+
+    connection.query(sqlQuery, params, (err, results) => {
+        if (err) {
+            console.error('Error en la búsqueda de productos:', err);
+            return res.status(500).json({ error: 'Error en la búsqueda de productos' });
+        }
+        if (results.length === 0) {
+            return res.status(404).json({ error: 'Producto no encontrado' });
+        }
+        res.json(results);
+    });
+});
+
+
 
 
 // API DEL CARRITO
@@ -500,6 +613,10 @@ app.post('/api/pedidos', (req, res) => {
     });
 });
 
+
+
+// Servir archivos estáticos desde el directorio 'public'
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Iniciar el servidor
 app.listen(port, '0.0.0.0', () => {

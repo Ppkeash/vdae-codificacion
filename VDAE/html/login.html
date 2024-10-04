@@ -53,11 +53,13 @@
     <script>
         document.getElementById('loginForm').addEventListener('submit', function(event) {
             event.preventDefault();
-
+            console.log('Formulario enviado');
+        
             const email = document.getElementById('correoElectronico').value;
             const password = document.getElementById('contraseña').value;
             const errorMessage = document.getElementById('errorMessage');
-
+        
+            console.log('Enviando solicitud de inicio de sesión...');
             fetch('/submit-login', {
                 method: 'POST',
                 headers: {
@@ -65,21 +67,30 @@
                 },
                 body: JSON.stringify({ correoElectronico: email, contraseña: password })
             })
-            .then(response => response.json())
+            .then(response => {
+                console.log('Respuesta recibida:', response.status);
+                return response.json();
+            })
             .then(data => {
+                console.log('Datos recibidos:', data);
                 if (data.exito) {
-                    window.location.href = '/login-exitoso';
+                    console.log('Inicio de sesión exitoso, redirigiendo a:', data.redirect);
+                    window.location.href = data.redirect;
                 } else {
-                    errorMessage.textContent = data.mensaje;
+                    console.log('Error en el inicio de sesión:', data.mensaje);
+                    errorMessage.textContent = data.mensaje || 'Error en el inicio de sesión';
                     errorMessage.style.display = 'block';
                 }
             })
             .catch(error => {
-                console.error('Error:', error);
+                console.error('Error en la solicitud:', error);
                 errorMessage.textContent = 'Ocurrió un error. Por favor, inténtelo de nuevo.';
                 errorMessage.style.display = 'block';
             });
         });
-    </script>
+        </script>
+        
+        
+        
 </body>
 </html>

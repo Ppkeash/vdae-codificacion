@@ -22,3 +22,4 @@ document.addEventListener('DOMContentLoaded', function() {
     // - Aplicar filtros
     // - Añadir productos al carrito
 });
+    
